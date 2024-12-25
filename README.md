@@ -1,6 +1,6 @@
 # LoRa Device ISE-DEV-001 (Windmühle)
 
-RAK Wireless Wisblock based on RAK4630 with Solarpanel and battery to messure timeseries of telemetric data and reprot to a ChirpSatck application server.
+RAK Wireless Wisblock based on RAK4630 with solarpanel and battery collecting timeseries of telemetric data and reporting to a ChirpStack application server.
 
 ## Contact details
 Email: bernhard@isemann.at
