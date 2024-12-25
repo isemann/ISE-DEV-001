@@ -69,6 +69,7 @@ static void send_lora_frame(void);
 static void bme680_get(void);
 void init_bme680(void);
 void initReadVBAT(void);
+float BoardGetBatteryLevel(void);
 
 /**@brief Structure containing LoRaWan callback functions, needed for lmh_init()
 */
@@ -313,4 +314,13 @@ void initReadVBAT(void)
 	analogReadResolution(12); // Can be 8, 10, 12 or 14
 	// Let the ADC settle
 	delay(1);
+}
+
+float BoardGetBatteryLevel (void)
+{
+  float raw;
+  // Get the raw 12-bit, 0..3000mV ADC value
+  raw = analogRead(PIN_VBAT);
+
+  return raw * REAL_VBAT_MV_PER_LSB;
 }
