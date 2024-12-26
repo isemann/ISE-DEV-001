@@ -69,7 +69,8 @@ static void send_lora_frame(void);
 static void bme680_get(void);
 void init_bme680(void);
 void initReadVBAT(void);
-float BoardGetBatteryLevel(void);
+float readVBAT (void);
+uint8_t mvToLoRaWanBattVal(float mvolts);
 
 /**@brief Structure containing LoRaWan callback functions, needed for lmh_init()
 */
@@ -110,6 +111,8 @@ void setup()
   delay(10);
 
   initReadVBAT();
+
+  readVBAT();
 
   Serial.println("=====================================");
   Serial.println("Welcome to RAK4630 LoRaWan!!!");
@@ -182,6 +185,10 @@ void setup()
 
 void loop()
 {
+  // Get a raw ADC reading
+  float vbat_mv = readVBAT();
+  BoardGetBatteryLevel(vbat_mv);
+
   // Handle Radio events
   Radio.IrqProcess();
 }
@@ -316,11 +323,26 @@ void initReadVBAT(void)
 	delay(1);
 }
 
-float BoardGetBatteryLevel (void)
+float readVBAT(void)
 {
   float raw;
   // Get the raw 12-bit, 0..3000mV ADC value
   raw = analogRead(PIN_VBAT);
 
   return raw * REAL_VBAT_MV_PER_LSB;
+}
+
+uint8_t BoardGetBatteryLevel(float mvolts)
+{ // * 2.55
+if (mvolts < 3300)
+  return 0;
+
+if (mvolts < 3600)
+{
+  mvolts -= 3300;
+  return mvolts / 30 * 2.55;
+}
+
+mvolts -= 3600;
+return (10 + (mvolts * 0.15F)) * 2.55;
 }
