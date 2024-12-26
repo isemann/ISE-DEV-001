@@ -78,7 +78,7 @@ static lmh_callback_t lora_callbacks = {BoardGetBatteryLevel, BoardGetUniqueId, 
                                         lorawan_rx_handler, lorawan_has_joined_handler, lorawan_confirm_class_handler};
 
 //OTAA keys
-uint8_t nodeDeviceEUI[8] = {0x1c, 0xf6, 0x8b, 0x8d, 0x8b, 0x0b, 0x27, 0x37};
+uint8_t nodeDeviceEUI[8] = {0x1c, 0xf6, 0x8b, 0x8d, 0x8b, 0x0b, 0x27, 0x37}; // Windmühle
 uint8_t nodeAppEUI[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 uint8_t nodeAppKey[16] = {0xfd, 0xd7, 0x8d, 0xbc, 0x18, 0x72, 0x8c, 0x46, 0x81, 0xc3, 0x1c, 0x40, 0x5c, 0x77, 0x6c, 0x0c};
 
@@ -186,8 +186,7 @@ void setup()
 void loop()
 {
   // Get a raw ADC reading
-  float vbat_mv = readVBAT();
-  BoardGetBatteryLevel(vbat_mv);
+  BoardGetBatteryLevel();
 
   // Handle Radio events
   Radio.IrqProcess();
@@ -330,19 +329,4 @@ float readVBAT(void)
   raw = analogRead(PIN_VBAT);
 
   return raw * REAL_VBAT_MV_PER_LSB;
-}
-
-uint8_t BoardGetBatteryLevel(float mvolts)
-{ // * 2.55
-if (mvolts < 3300)
-  return 0;
-
-if (mvolts < 3600)
-{
-  mvolts -= 3300;
-  return mvolts / 30 * 2.55;
-}
-
-mvolts -= 3600;
-return (10 + (mvolts * 0.15F)) * 2.55;
 }
