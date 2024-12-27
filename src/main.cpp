@@ -282,7 +282,7 @@ void   bme680_get()
   double pres = bme.pressure / 100.0;
   double hum = bme.humidity;
   uint32_t gas = bme.gas_resistance;
-  double lux = readVBAT();
+  double lux = readVBAT()/1000;
 
   sprintf(payload, "%.2f:%.2f:%.2f:%.2f", temp, hum, pres, lux);
   uint32_t h = strlen(payload);
