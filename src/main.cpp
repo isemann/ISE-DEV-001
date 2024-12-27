@@ -1,11 +1,11 @@
 /**
  * @file LoRaWAN_OTAA.ino
  * @author Bernhard Isemann
- * @brief LoRaWan node example with OTAA registration
- * @version 0.5
- * @date 2021-01-16
+ * @brief LoRaWan node with OTAA registration
+ * @version 1.0
+ * @date 2024-12-27
  * 
- * @copyright Copyright (c) 2021
+ * @copyright Copyright (c) 2025
  * 
  * @note RAK5005-O GPIO mapping to RAK4631 GPIO ports
  * IO1 <-> P0.17 (Arduino GPIO number 17)
